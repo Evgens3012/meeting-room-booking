@@ -1,6 +1,7 @@
 import { ServiceBroker } from 'moleculer';
 import ApiService from 'moleculer-web';
 import RoomsService from './services/rooms.service';
+import BookingsService from './services/bookings.service';
 
 async function main() {
   const broker = new ServiceBroker({
@@ -21,6 +22,8 @@ async function main() {
           aliases: {
             'GET /rooms': 'rooms.list',
             'POST /rooms': 'rooms.create',
+            'GET /bookings': 'bookings.list',
+            'POST /bookings': 'bookings.create'
           },
           bodyParsers: { json: true },
         },
@@ -29,10 +32,9 @@ async function main() {
   });
 
   broker.createService(RoomsService);
+  broker.createService(BookingsService);
 
-  // важно: дожидаемся старта
   await broker.start();
-
   console.log('✅ Moleculer API запущен на http://localhost:3000/api');
 }
 
